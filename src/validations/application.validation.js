@@ -1,0 +1,59 @@
+const { body } = require("express-validator");
+
+exports.createApplicationValidation = [
+  body("job_id")
+    .notEmpty()
+    .withMessage("Job ID is required")
+    .isInt({ min: 1 })
+    .withMessage("Job ID must be a valid number"),
+
+  body("first_name")
+    .trim()
+    .notEmpty()
+    .withMessage("First name is required")
+    .isLength({ min: 2, max: 100 })
+    .withMessage("First name must be between 2 and 100 characters"),
+
+  body("last_name")
+    .trim()
+    .notEmpty()
+    .withMessage("Last name is required")
+    .isLength({ min: 2, max: 100 })
+    .withMessage("Last name must be between 2 and 100 characters"),
+
+  body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email is required")
+    .isEmail()
+    .withMessage("Please enter a valid email address"),
+
+  body("phone")
+    .trim()
+    .notEmpty()
+    .withMessage("Phone number is required")
+    .matches(/^[6-9]\d{9}$/)
+    .withMessage("Please enter a valid 10-digit mobile number"),
+
+  body("linkedin")
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("LinkedIn must be a valid URL"),
+
+  body("portfolio")
+    .optional({ checkFalsy: true })
+    .isURL()
+    .withMessage("Portfolio must be a valid URL"),
+
+  body("experience")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 50 })
+    .withMessage("Experience cannot exceed 50 characters"),
+
+  body("resume").notEmpty().withMessage("Resume is required"),
+
+  body("cover_letter")
+    .optional({ checkFalsy: true })
+    .isLength({ max: 5000 })
+    .withMessage("Cover letter cannot exceed 5000 characters"),
+];
