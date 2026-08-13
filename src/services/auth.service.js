@@ -47,7 +47,7 @@ const forgotPassword = async (email) => {
 
   await authRepository.saveResetToken(email, token, expiry);
 
-  const resetUrl = `http://localhost:5173/reset-password?token=${token}`;
+  const resetUrl = `${process.env.ADMIN_URL}/reset-password?token=${token}`;
 
   try {
     await emailService.sendEmail({

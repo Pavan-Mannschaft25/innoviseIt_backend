@@ -1179,7 +1179,7 @@ const create = async (application) => {
         first_name: application.first_name,
         last_name: application.last_name,
         job_title: job.title,
-        career_url: process.env.CAREER_URL || "https://careers.innovise-it.com",
+        career_url: process.env.CAREER_URL,
       },
     })
     .then(() => console.log("Candidate confirmation email sent"))
@@ -1199,8 +1199,7 @@ const create = async (application) => {
           phone: application.phone,
           experience: application.experience,
           job_title: job.title,
-          admin_url:
-            process.env.ADMIN_URL || "http://localhost:5173/admin/applications",
+          admin_url: `${process.env.ADMIN_URL}/applications`,
         },
       })
       .then(() => console.log("HR notification sent"))
@@ -1325,10 +1324,7 @@ const updateStatus = async (id, status) => {
           job_title: application.job_title,
           department_name: application.department_name,
           status,
-          career_url:
-            process.env.CAREER_URL || "https://careers.innovise-it.com",
-          admin_url:
-            process.env.ADMIN_URL || "http://localhost:5173/admin/applications",
+          career_url: process.env.CAREER_URL,
         },
       })
       .then(() => console.log(`${status} email sent to ${application.email}`))

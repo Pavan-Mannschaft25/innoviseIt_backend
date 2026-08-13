@@ -69,7 +69,7 @@ const create = async (adminData) => {
 
         role: adminData.role,
 
-        login_url: "http://localhost:5173/login",
+        login_url: `${process.env.ADMIN_URL}/login`,
       },
     });
 
