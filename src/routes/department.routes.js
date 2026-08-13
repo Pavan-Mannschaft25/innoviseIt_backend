@@ -24,19 +24,69 @@
 
 // module.exports = router;
 
+// const express = require("express");
+
+// const router = express.Router();
+
+// const controller = require("../controllers/department.controller");
+
+// const authenticate = require("../middleware/auth.middleware");
+// const authorize = require("../middleware/role.middleware");
+
+// router.get("/", authenticate, controller.getAll);
+
+// router.get("/:id", authenticate, controller.getById);
+
+// router.post(
+//   "/",
+//   authenticate,
+//   authorize("Super Admin", "Admin"),
+//   controller.create,
+// );
+
+// router.put(
+//   "/:id",
+//   authenticate,
+//   authorize("Super Admin", "Admin"),
+//   controller.update,
+// );
+
+// router.delete(
+//   "/:id",
+//   authenticate,
+//   authorize("Super Admin"),
+//   controller.remove,
+// );
+
+// module.exports = router;
+
 const express = require("express");
 
 const router = express.Router();
 
 const controller = require("../controllers/department.controller");
-
 const authenticate = require("../middleware/auth.middleware");
 const authorize = require("../middleware/role.middleware");
 
-router.get("/", authenticate, controller.getAll);
+/**
+ * =========================================================
+ * PUBLIC ROUTES
+ * =========================================================
+ */
 
-router.get("/:id", authenticate, controller.getById);
+// Get all departments
+router.get("/", controller.getAll);
 
+// Get department by ID
+router.get("/:id", controller.getById);
+
+/**
+ * =========================================================
+ * PROTECTED ADMIN ROUTES
+ * =========================================================
+ */
+
+// Create department
 router.post(
   "/",
   authenticate,
@@ -44,6 +94,7 @@ router.post(
   controller.create,
 );
 
+// Update department
 router.put(
   "/:id",
   authenticate,
@@ -51,6 +102,7 @@ router.put(
   controller.update,
 );
 
+// Delete department
 router.delete(
   "/:id",
   authenticate,

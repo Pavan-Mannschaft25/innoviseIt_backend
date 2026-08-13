@@ -47,11 +47,17 @@ app.use("/api/dashboard", dashboardRoutes);
 const adminRoutes = require("./routes/admin.routes");
 app.use("/api/admins", adminRoutes);
 
-const emailRoutes = require("./routes/email.routes");
-app.use("/api/email", emailRoutes);
-
 const auditRoutes = require("./routes/audit.routes");
 app.use("/api/audit-logs", auditRoutes);
+
+const emailRoutes = require("./routes/email.routes");
+app.use("/api/emails", emailRoutes);
+
+const emailTemplateRoutes = require("./routes/emailTemplate.routes");
+app.use("/api/email-templates", emailTemplateRoutes);
+
+const interviewRoutes = require("./routes/interview.routes");
+app.use("/api/interviews", interviewRoutes);
 
 // Global Error Handler
 const errorHandler = require("./middleware/error.middleware");

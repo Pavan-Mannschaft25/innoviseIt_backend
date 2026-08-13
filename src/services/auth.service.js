@@ -83,9 +83,17 @@ const resetPassword = async (token, newPassword) => {
 
   await authRepository.updatePassword(admin.id, hashedPassword);
 
+  // Optional but recommended: invalidate the reset token
+  await authRepository.clearResetToken(admin.id);
+
   console.log("✅ Password updated successfully.");
 
-  return true;
+  return {
+    id: admin.id,
+    full_name: admin.full_name,
+    email: admin.email,
+    role: admin.role,
+  };
 };
 
 module.exports = {

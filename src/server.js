@@ -2,6 +2,16 @@ require("dotenv").config();
 
 const app = require("./app");
 const pool = require("./config/db");
+const transporter = require("./config/mail");
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("❌ SES SMTP connection failed:");
+    console.error(error.message);
+  } else {
+    console.log("✅ Amazon SES SMTP connection successful");
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 

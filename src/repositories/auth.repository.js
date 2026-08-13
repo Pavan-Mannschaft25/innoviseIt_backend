@@ -59,9 +59,23 @@ const updatePassword = async (id, password) => {
   );
 };
 
+const clearResetToken = async (id) => {
+  await pool.query(
+    `
+      UPDATE admins
+      SET
+        reset_token = NULL,
+        reset_token_expiry = NULL
+      WHERE id = ?
+    `,
+    [id],
+  );
+};
+
 module.exports = {
   findAdminByEmail,
   saveResetToken,
   findByResetToken,
   updatePassword,
+  clearResetToken,
 };
