@@ -1,67 +1,142 @@
+// // // const express = require("express");
+
+// // // const router = express.Router();
+
+// // // const controller = require("../controllers/application.controller");
+
+// // // const upload = require("../middleware/upload.middleware");
+
+// // // const {
+// // //   createApplicationValidation,
+// // // } = require("../validations/application.validation");
+
+// // // const {
+// // //   updateStatusValidation,
+// // // } = require("../validations/applicationStatus.validation");
+
+// // // const validate = require("../middleware/validate.middleware");
+
+// // // router.post(
+// // //   "/",
+// // //   upload.single("resume"),
+// // //   createApplicationValidation,
+// // //   validate,
+// // //   controller.create,
+// // // );
+
+// // // router.get("/", controller.getAll);
+
+// // // router.get("/:id", controller.getById);
+
+// // // router.put(
+// // //   "/:id/status",
+// // //   updateStatusValidation,
+// // //   validate,
+// // //   controller.updateStatus,
+// // // );
+
+// // // router.delete("/:id", controller.remove);
+
+// // // module.exports = router;
+
+// // // const express = require("express");
+
+// // // const router = express.Router();
+
+// // // const controller = require("../controllers/application.controller");
+
+// // // const upload = require("../middleware/upload.middleware");
+
+// // // const authenticate = require("../middleware/auth.middleware");
+// // // const authorize = require("../middleware/role.middleware");
+
+// // // // Public
+
+// // // router.post("/", upload.single("resume"), controller.create);
+
+// // // // Protected
+
+// // // router.get(
+// // //   "/",
+// // //   authenticate,
+// // //   authorize("Super Admin", "Admin", "HR", "Recruiter"),
+// // //   controller.getAll,
+// // // );
+
+// // // router.get(
+// // //   "/:id",
+// // //   authenticate,
+// // //   authorize("Super Admin", "Admin", "HR", "Recruiter"),
+// // //   controller.getById,
+// // // );
+
+// // // // router.put(
+// // // //   "/:id/status",
+// // // //   authenticate,
+// // // //   authorize("Super Admin", "Admin", "HR", "Recruiter"),
+// // // //   controller.updateStatus,
+// // // // );
+
+// // // router.put(
+// // //   "/:id/status",
+// // //   authenticate,
+// // //   authorize("HR", "Recruiter", "Admin", "Super Admin"),
+// // //   controller.updateStatus,
+// // // );
+
+// // // router.delete(
+// // //   "/:id",
+// // //   authenticate,
+// // //   authorize("Super Admin"),
+// // //   controller.remove,
+// // // );
+
+// // // module.exports = router;
+
 // // const express = require("express");
 
 // // const router = express.Router();
 
 // // const controller = require("../controllers/application.controller");
-
-// // const upload = require("../middleware/upload.middleware");
-
-// // const {
-// //   createApplicationValidation,
-// // } = require("../validations/application.validation");
-
-// // const {
-// //   updateStatusValidation,
-// // } = require("../validations/applicationStatus.validation");
-
-// // const validate = require("../middleware/validate.middleware");
-
-// // router.post(
-// //   "/",
-// //   upload.single("resume"),
-// //   createApplicationValidation,
-// //   validate,
-// //   controller.create,
-// // );
-
-// // router.get("/", controller.getAll);
-
-// // router.get("/:id", controller.getById);
-
-// // router.put(
-// //   "/:id/status",
-// //   updateStatusValidation,
-// //   validate,
-// //   controller.updateStatus,
-// // );
-
-// // router.delete("/:id", controller.remove);
-
-// // module.exports = router;
-
-// // const express = require("express");
-
-// // const router = express.Router();
-
-// // const controller = require("../controllers/application.controller");
-
 // // const upload = require("../middleware/upload.middleware");
 
 // // const authenticate = require("../middleware/auth.middleware");
 // // const authorize = require("../middleware/role.middleware");
 
-// // // Public
+// // // =====================================================
+// // // PUBLIC
+// // // =====================================================
 
+// // // Candidate submits application
 // // router.post("/", upload.single("resume"), controller.create);
 
-// // // Protected
+// // // =====================================================
+// // // PROTECTED
+// // // =====================================================
 
+// // // Get all applications
 // // router.get(
 // //   "/",
 // //   authenticate,
 // //   authorize("Super Admin", "Admin", "HR", "Recruiter"),
 // //   controller.getAll,
 // // );
+
+// // // =====================================================
+// // // RESUME
+// // // =====================================================
+
+// // // Generate secure temporary S3 resume URL
+// // router.get(
+// //   "/:id/resume",
+// //   authenticate,
+// //   authorize("Super Admin", "Admin", "HR", "Recruiter"),
+// //   controller.getResumeUrl,
+// // );
+
+// // // =====================================================
+// // // APPLICATION BY ID
+// // // =====================================================
 
 // // router.get(
 // //   "/:id",
@@ -70,12 +145,9 @@
 // //   controller.getById,
 // // );
 
-// // // router.put(
-// // //   "/:id/status",
-// // //   authenticate,
-// // //   authorize("Super Admin", "Admin", "HR", "Recruiter"),
-// // //   controller.updateStatus,
-// // // );
+// // // =====================================================
+// // // UPDATE STATUS
+// // // =====================================================
 
 // // router.put(
 // //   "/:id/status",
@@ -83,6 +155,10 @@
 // //   authorize("HR", "Recruiter", "Admin", "Super Admin"),
 // //   controller.updateStatus,
 // // );
+
+// // // =====================================================
+// // // DELETE
+// // // =====================================================
 
 // // router.delete(
 // //   "/:id",
@@ -98,23 +174,32 @@
 // const router = express.Router();
 
 // const controller = require("../controllers/application.controller");
+
 // const upload = require("../middleware/upload.middleware");
 
 // const authenticate = require("../middleware/auth.middleware");
 // const authorize = require("../middleware/role.middleware");
 
-// // =====================================================
-// // PUBLIC
-// // =====================================================
+// /**
+//  * =========================================================
+//  * PUBLIC
+//  * =========================================================
+//  */
 
-// // Candidate submits application
+// /**
+//  * Candidate submits application
+//  */
 // router.post("/", upload.single("resume"), controller.create);
 
-// // =====================================================
-// // PROTECTED
-// // =====================================================
+// /**
+//  * =========================================================
+//  * PROTECTED
+//  * =========================================================
+//  */
 
-// // Get all applications
+// /**
+//  * Get all applications
+//  */
 // router.get(
 //   "/",
 //   authenticate,
@@ -122,11 +207,9 @@
 //   controller.getAll,
 // );
 
-// // =====================================================
-// // RESUME
-// // =====================================================
-
-// // Generate secure temporary S3 resume URL
+// /**
+//  * Generate secure temporary S3 resume URL
+//  */
 // router.get(
 //   "/:id/resume",
 //   authenticate,
@@ -134,10 +217,9 @@
 //   controller.getResumeUrl,
 // );
 
-// // =====================================================
-// // APPLICATION BY ID
-// // =====================================================
-
+// /**
+//  * Get application by ID
+//  */
 // router.get(
 //   "/:id",
 //   authenticate,
@@ -145,10 +227,9 @@
 //   controller.getById,
 // );
 
-// // =====================================================
-// // UPDATE STATUS
-// // =====================================================
-
+// /**
+//  * Update application status
+//  */
 // router.put(
 //   "/:id/status",
 //   authenticate,
@@ -156,10 +237,9 @@
 //   controller.updateStatus,
 // );
 
-// // =====================================================
-// // DELETE
-// // =====================================================
-
+// /**
+//  * Delete application
+//  */
 // router.delete(
 //   "/:id",
 //   authenticate,
@@ -170,15 +250,25 @@
 // module.exports = router;
 
 const express = require("express");
-
 const router = express.Router();
 
 const controller = require("../controllers/application.controller");
-
 const upload = require("../middleware/upload.middleware");
 
 const authenticate = require("../middleware/auth.middleware");
 const authorize = require("../middleware/role.middleware");
+
+/**
+ * Define roles that have access to application data
+ */
+const APP_ACCESS_ROLES = [
+  "Super Admin",
+  "HR Administrator",
+  "Talent Acquisition Manager",
+  "Recruiter",
+  "Talent Sourcer",
+  "Hiring Manager", // Hiring managers usually need to see applicants for their jobs
+];
 
 /**
  * =========================================================
@@ -203,7 +293,7 @@ router.post("/", upload.single("resume"), controller.create);
 router.get(
   "/",
   authenticate,
-  authorize("Super Admin", "Admin", "HR", "Recruiter"),
+  authorize(...APP_ACCESS_ROLES),
   controller.getAll,
 );
 
@@ -213,7 +303,7 @@ router.get(
 router.get(
   "/:id/resume",
   authenticate,
-  authorize("Super Admin", "Admin", "HR", "Recruiter"),
+  authorize(...APP_ACCESS_ROLES),
   controller.getResumeUrl,
 );
 
@@ -223,7 +313,7 @@ router.get(
 router.get(
   "/:id",
   authenticate,
-  authorize("Super Admin", "Admin", "HR", "Recruiter"),
+  authorize(...APP_ACCESS_ROLES),
   controller.getById,
 );
 
@@ -233,7 +323,7 @@ router.get(
 router.put(
   "/:id/status",
   authenticate,
-  authorize("HR", "Recruiter", "Admin", "Super Admin"),
+  authorize(...APP_ACCESS_ROLES),
   controller.updateStatus,
 );
 
@@ -243,7 +333,7 @@ router.put(
 router.delete(
   "/:id",
   authenticate,
-  authorize("Super Admin"),
+  authorize("Super Admin"), // Keep deletion restricted to Super Admins
   controller.remove,
 );
 

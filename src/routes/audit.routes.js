@@ -1,18 +1,75 @@
-const express = require("express");
+// const express = require("express");
 
+// const router = express.Router();
+
+// const auditController = require("../controllers/audit.controller");
+
+// const authenticate = require("../middleware/auth.middleware");
+
+// const authorize = require("../middleware/rbac.middleware");
+
+// /**
+//  * GET /api/audit-logs
+//  * Super Admin Only
+//  */
+// router.get("/", authenticate, authorize("Super Admin"), auditController.getAll);
+
+// /**
+//  * GET /api/audit-logs/:id
+//  */
+// router.get(
+//   "/:id",
+//   authenticate,
+//   authorize("Super Admin"),
+//   auditController.getById,
+// );
+
+// /**
+//  * GET /api/audit-logs/admin/:adminId
+//  */
+// router.get(
+//   "/admin/:adminId",
+//   authenticate,
+//   authorize("Super Admin"),
+//   auditController.getByAdmin,
+// );
+
+// /**
+//  * GET /api/audit-logs/module/:module
+//  */
+// router.get(
+//   "/module/:module",
+//   authenticate,
+//   authorize("Super Admin"),
+//   auditController.getByModule,
+// );
+
+// module.exports = router;
+
+const express = require("express");
 const router = express.Router();
 
 const auditController = require("../controllers/audit.controller");
 
 const authenticate = require("../middleware/auth.middleware");
-
+// Note: Ensure this matches your actual filename (rbac.middleware vs role.middleware)
 const authorize = require("../middleware/rbac.middleware");
 
 /**
- * GET /api/audit-logs
- * Super Admin Only
+ * Roles allowed to view audit logs
  */
-router.get("/", authenticate, authorize("Super Admin"), auditController.getAll);
+const AUDIT_ROLES = ["Super Admin", "Auditor"];
+
+/**
+ * GET /api/audit-logs
+ * Super Admin & Auditor Only
+ */
+router.get(
+  "/",
+  authenticate,
+  authorize(...AUDIT_ROLES),
+  auditController.getAll,
+);
 
 /**
  * GET /api/audit-logs/:id
@@ -20,7 +77,7 @@ router.get("/", authenticate, authorize("Super Admin"), auditController.getAll);
 router.get(
   "/:id",
   authenticate,
-  authorize("Super Admin"),
+  authorize(...AUDIT_ROLES),
   auditController.getById,
 );
 
@@ -30,7 +87,7 @@ router.get(
 router.get(
   "/admin/:adminId",
   authenticate,
-  authorize("Super Admin"),
+  authorize(...AUDIT_ROLES),
   auditController.getByAdmin,
 );
 
@@ -40,7 +97,7 @@ router.get(
 router.get(
   "/module/:module",
   authenticate,
-  authorize("Super Admin"),
+  authorize(...AUDIT_ROLES),
   auditController.getByModule,
 );
 
