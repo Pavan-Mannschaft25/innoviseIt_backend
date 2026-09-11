@@ -436,3 +436,62 @@ exports.remove = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "Application deleted successfully"));
 });
+
+// Add these to application.controller.js
+
+exports.requestInterview = asyncHandler(async (req, res) => {
+  const application = await applicationService.requestInterview(req.params.id);
+
+  await auditService.logActivity({
+    admin_id: req.user.id,
+    module: "Applications",
+    action: "INTERVIEW_REQUEST",
+    description: `Requested interview approval for ${application.first_name} ${application.last_name}`,
+    ip_address: req.ip,
+    user_agent: req.headers["user-agent"],
+  });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, "Interview approval requested", application));
+});
+
+exports.approveInterview = asyncHandler(async (req, res) => {
+  const application = await applicationService.approveInterview(
+    req.params.id,
+    req.user.id,
+  );
+
+  await auditService.logActivity({
+    admin_id: req.user.id,
+    module: "Applications",
+    action: "INTERVIEW_APPROVED",
+    description: `Approved interview for ${application.first_name} ${application.last_name}`,
+    ip_address: req.ip,
+    user_agent: req.headers["user-agent"],
+  });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, "Interview approved successfully", application));
+});
+
+exports.rejectInterview = asyncHandler(async (req, res) => {
+  const application = await applicationService.rejectInterview(
+    req.params.id,
+    req.user.id,
+  );
+
+  await auditService.logActivity({
+    admin_id: req.user.id,
+    module: "Applications",
+    action: "INTERVIEW_REJECTED",
+    description: `Rejected interview request for ${application.first_name} ${application.last_name}`,
+    ip_address: req.ip,
+    user_agent: req.headers["user-agent"],
+  });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, "Interview request rejected", application));
+});

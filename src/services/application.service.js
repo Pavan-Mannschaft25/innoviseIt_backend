@@ -1370,6 +1370,48 @@ const remove = async (id) => {
   }
 };
 
+// Add these to application.service.js
+
+const requestInterview = async (id) => {
+  const application = await applicationRepository.findById(id);
+  if (!application) throw new ApiError(404, "Application not found");
+
+  if (application.interview_approval_status === "Approved") {
+    throw new ApiError(400, "Interview already approved");
+  }
+
+  await applicationRepository.updateInterviewApprovalStatus(id, "Pending");
+  return { ...application, interview_approval_status: "Pending" };
+};
+
+const approveInterview = async (id, adminId) => {
+  const application = await applicationRepository.findById(id);
+  if (!application) throw new ApiError(404, "Application not found");
+
+  await applicationRepository.updateInterviewApprovalStatus(
+    id,
+    "Approved",
+    adminId,
+  );
+
+  // Optional: Send email to recruiter that interview is approved
+
+  return { ...application, interview_approval_status: "Approved" };
+};
+
+const rejectInterview = async (id, adminId) => {
+  const application = await applicationRepository.findById(id);
+  if (!application) throw new ApiError(404, "Application not found");
+
+  await applicationRepository.updateInterviewApprovalStatus(
+    id,
+    "Rejected",
+    adminId,
+  );
+
+  return { ...application, interview_approval_status: "Rejected" };
+};
+
 module.exports = {
   create,
   getAll,
@@ -1377,4 +1419,7 @@ module.exports = {
   getResumeUrl,
   updateStatus,
   remove,
+  requestInterview,
+  approveInterview,
+  rejectInterview,
 };
